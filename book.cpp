@@ -1,25 +1,23 @@
-#include "Book.h"
-#include<cctype>
+#include "book.h"
 
-//默认构造
 Book::Book()
 {
     bookName = "未命名图书";
     isbn = "0000000000000";
     press = "未知出版社";
-    price = 0.0;
-    pageCount = 0;
+    price = 0;
+    pages = 0;
     isAvailable = true;
+    isIsbnValid = true;
 }
 
-//重载构造函数
-Book::Book(string name, string isbn_, string press_, double price_, int pages, bool avail)
+Book::Book(string name, string isbn_, string press_, double price_, int pages_, bool avail)
 {
     setBookName(name);
     setIsbn(isbn_);
     setPress(press_);
     setPrice(price_);
-    setPageCount(pages);
+    setPages(pages_);
     setAvailable(avail);
 }
 
@@ -33,10 +31,12 @@ void Book::setIsbn(string isbn_)
     if (verifyIsbn(isbn_))
     {
         isbn = isbn_;
+        isIsbnValid = true;
     }
     else
     {
-        cout << "[警告]isbn不合法，保留旧值！" << endl;
+        cout << "[警告]ISBN不合法，保留原值！" << endl;
+        isIsbnValid = false;
     }
 }
 
@@ -45,26 +45,22 @@ void Book::setPress(string press_)
     press = press_;
 }
 
-void Book::setPrice(double p)
+void Book::setPrice(double price_)
 {
-    if (p >= 0)
-        price = p;
+    if (price_ >= 0)
+    {
+        price = price_;
+    }
     else
     {
-        cout << "[警告]价格不能为负数！" << endl;
-        price = 0;
+        cout << "[警告]价格不能为负数，保留原值！" << endl;
     }
 }
 
-void Book::setPageCount(int pages)
+void Book::setPages(int pages_)
 {
-    if (pages >= 0)
-        pageCount = pages;
-    else
-    {
-        cout << "[警告]页数不能负数！" << endl;
-        pageCount = 0;
-    }
+    if (pages_ > 0)
+        pages = pages_;
 }
 
 void Book::setAvailable(bool avail)
@@ -72,37 +68,49 @@ void Book::setAvailable(bool avail)
     isAvailable = avail;
 }
 
-string Book::getBookName() const { return bookName; }
-string Book::getIsbn() const { return isbn; }
-string Book::getPress() const { return press; }
-double Book::getPrice() const { return price; }
-int Book::getPageCount() const { return pageCount; }
-bool Book::getAvailable() const { return isAvailable; }
-
-void Book::showInfo() const
+string Book::getBookName()
 {
-    cout << "=====图书信息=====" << endl;
-    cout << "书名：" << bookName << endl;
-    cout << "ISBN：" << isbn << endl;
-    cout << "出版社：" << press << endl;
-    cout << "价格：" << price << " 元" << endl;
-    cout << "页数：" << pageCount << endl;
-    if (isAvailable)
-        cout << "状态：【可借阅】" << endl;
-    else
-        cout << "状态：【已借出不可借】" << endl;
+    return bookName;
 }
 
-bool Book::verifyIsbn(string isbn_) const
+string Book::getIsbn()
 {
-    if (isbn_.empty())
-        return false;
-    for (char ch : isbn_)
-    {
-        if (!isdigit(ch))
-        {
-            return false;
-        }
-    }
-    return true;
+    return isbn;
+}
+
+string Book::getPress()
+{
+    return press;
+}
+
+double Book::getPrice()
+{
+    return price;
+}
+
+int Book::getPages()
+{
+    return pages;
+}
+
+bool Book::getAvailable()
+{
+    return isAvailable;
+}
+
+void Book::showInfo()
+{
+    cout << "书名：" << bookName << endl;
+    cout << "ISBN：" << isbn;
+    if (isIsbnValid)
+        cout << "（合法）" << endl;
+    else
+        cout << "（非法）" << endl;
+    cout << "出版社：" << press << endl;
+    cout << "价格：" << price << endl;
+    cout << "页数：" << pages << endl;
+    if (isAvailable)
+        cout << "状态：可借阅" << endl;
+    else
+        cout << "状态：不可借阅" << endl;
 }
