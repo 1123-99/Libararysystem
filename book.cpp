@@ -1,4 +1,5 @@
 #include "Book.h"
+#include<cctype>
 
 //Ä¬ÈÏ¹¹Ôì
 Book::Book()
@@ -96,5 +97,12 @@ bool Book::verifyIsbn(string isbn_) const
 {
     if (isbn_.empty())
         return false;
+    for (char ch : isbn_)
+    {
+        if (!isdigit(ch))
+        {
+            return false;
+        }
+    }
     return true;
 }

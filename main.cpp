@@ -30,6 +30,9 @@ int main()
     //4 使用get函数读取属性
     cout << "b2书名：" << b2.getBookName() << endl;
     cout << "b2 ISBN：" << b2.getIsbn() << endl;
+    cout << "\n测试设置非法ISBN：" << endl;
+    b2.setIsbn("123abc456");
+    b2.showInfo();
 
     return 0;
 }
